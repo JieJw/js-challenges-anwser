@@ -2,7 +2,7 @@
  * @Author: wangjieu wangjieu@yonyou.com
  * @Date: 2024-07-31 16:00:48
  * @LastEditors: wangjieu wangjieu@yonyou.com
- * @LastEditTime: 2024-07-31 16:08:41
+ * @LastEditTime: 2024-08-01 18:05:58
  * @FilePath: /js-challenges/实现promise.all.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,26 +15,20 @@ const generatePromise = (deley) => {
 	});
 };
 
-function myPromiseAll(arr) {
+function myPromiseRace(arr) {
 	if (!Array.isArray(arr) || !arr.length) {
 		return [];
 	}
-	const resArr = [];
-	let count = 0;
 	return new Promise((resolve, reject) => {
 		arr.forEach((_item, _index) => {
 			_item.then((_itemRes) => {
-				resArr[_index] = _itemRes;
-				count++;
-				if (arr.length === count) {
-					resolve(resArr);
-				}
+				resolve(_itemRes);
 			});
 		});
 	});
 }
 
-const arr = [generatePromise(1000), generatePromise(2000), generatePromise(3000), generatePromise(4000)];
+const arr = [generatePromise(5000), generatePromise(1500), generatePromise(2000), generatePromise(4000)];
 myPromiseAll(arr).then((res) => {
 	console.log("-----------", res, "-------------");
 });
